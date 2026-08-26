@@ -9,11 +9,6 @@ import { PatchMovieDto } from './dto/patch-movie.dto';
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
-  @Post()
-  create(@Body() createMovieDto: CreateMovieDto): Promise<MovieEntity> {
-    return this.moviesService.create(createMovieDto);
-  }
-
   @Get()
   findAll(): Promise<MovieEntity[]> {
     return this.moviesService.findAll();
@@ -22,6 +17,11 @@ export class MoviesController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number): Promise<MovieEntity> {
     return this.moviesService.findOne(id);
+  }
+
+  @Post()
+  create(@Body() createMovieDto: CreateMovieDto): Promise<MovieEntity> {
+    return this.moviesService.create(createMovieDto);
   }
 
   @Put(':id')

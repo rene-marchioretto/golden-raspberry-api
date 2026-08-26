@@ -1,28 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AwardWinningProducersService } from '../award-winning-producers/award-winning-producers.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { PatchMovieDto } from './dto/patch-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieEntity } from './entities/movie.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { PatchMovieDto } from './dto/patch-movie.dto';
-import { AwardWinningProducersService } from '../award-winning-producers/award-winning-producers.service';
 
 @Injectable()
 export class MoviesService {
   constructor(
     @InjectRepository(MovieEntity)
-    private movieRepository: Repository<MovieEntity>,
+    private readonly movieRepository: Repository<MovieEntity>,
     private readonly awardWinningProducersService: AwardWinningProducersService,
   ) {}
-
-  async create(createMovieDto: CreateMovieDto): Promise<MovieEntity> {
-    const movie = MovieEntity.create(createMovieDto);
-
-    const createdMovie = await this.movieRepository.save(movie);
-    await this.awardWinningProducersService.refreshWatchedList();
-
-    return createdMovie;
-  }
 
   findAll(): Promise<MovieEntity[]> {
     return this.movieRepository.find({
@@ -42,6 +33,16 @@ export class MoviesService {
     return movie;
   }
 
+  async create(createMovieDto: CreateMovieDto): Promise<MovieEntity> {
+    const movie = MovieEntity.create(createMovieDto);
+
+    const createdMovie = await this.movieRepository.save(movie);
+
+    await this.awardWinningProducersService.refreshWatchedList();
+
+    return createdMovie;
+  }
+
   async update(
     id: number,
     updateMovieDto: UpdateMovieDto,
@@ -51,6 +52,7 @@ export class MoviesService {
     movie.update(updateMovieDto);
 
     const updatedMovie = await this.movieRepository.save(movie);
+
     await this.awardWinningProducersService.refreshWatchedList();
 
     return updatedMovie;
@@ -62,6 +64,7 @@ export class MoviesService {
     movie.patch(patchMovieDto);
 
     const patchedMovie = await this.movieRepository.save(movie);
+
     await this.awardWinningProducersService.refreshWatchedList();
 
     return patchedMovie;
