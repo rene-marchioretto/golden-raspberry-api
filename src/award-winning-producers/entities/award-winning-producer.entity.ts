@@ -10,7 +10,7 @@ export interface AwardWinningProducerIntervalProps {
   followingWin: number;
 }
 
-@Entity({ name: 'award_winning_producers_watchlist' })
+@Entity({ name: 'award_winning_producers' })
 @Index(['kind', 'interval'])
 export class AwardWinningProducerIntervalEntity {
   @PrimaryGeneratedColumn()
