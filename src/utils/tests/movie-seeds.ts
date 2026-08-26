@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 
-interface MovieResponse {
+export interface MovieResponse {
   id: number;
   year: number;
   title: string;
@@ -11,7 +11,7 @@ interface MovieResponse {
   winner: boolean;
 }
 
-interface MoviePayload {
+export interface MoviePayload {
   year: number;
   title: string;
   studios: string;

@@ -8,15 +8,7 @@ import { MovieEntity } from './entities/movie.entity';
 import { MoviesModule } from './movies.module';
 import { DatabaseModule } from '../utils/database/database.module';
 import { seedMovie } from '../utils/tests/movie-seeds';
-
-interface MovieResponse {
-    id: number;
-    year: number;
-    title: string;
-    studios: string;
-    producers: string[];
-    winner: boolean;
-  }
+import { MovieResponse } from '../utils/tests/movie-seeds';
 
 describe('Integração CRUD de filmes', () => {
     let app: INestApplication<App>;
