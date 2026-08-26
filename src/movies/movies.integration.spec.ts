@@ -84,14 +84,7 @@ describe('Integração CRUD de filmes', () => {
         });
       });
       it('cria um filme', async () => {
-        await seedMovie({
-          year: 1980,
-          title: 'Movie A',
-          studios: 'Studio A',
-          producers: ['Producer A'],
-          winner: true,
-        });
-    
+
         const response = await request(app.getHttpServer())
           .post('/movies')
           .send({
@@ -104,13 +97,6 @@ describe('Integração CRUD de filmes', () => {
           .expect(201);
       });
       it('atualiza um filme com put', async () => {
-        await seedMovie({
-          year: 1980,
-          title: 'Movie A',
-          studios: 'Studio A',
-          producers: ['Producer A'],
-          winner: true,
-        });
         const movieToUpdate = await seedMovie({
           year: 1980,
           title: 'Movie C',
@@ -131,14 +117,7 @@ describe('Integração CRUD de filmes', () => {
           .expect(200);
         });
         it('remove um filme', async () => {
-            const firstMovie = await seedMovie({
-              year: 1980,
-              title: 'Movie A',
-              studios: 'Studio A',
-              producers: ['Producer A'],
-              winner: true,
-            });
-            const secondMovie = await seedMovie({
+            const firstMovieToRemove = await seedMovie({
               year: 1981,
               title: 'Movie B',
               studios: 'Studio B',
@@ -146,7 +125,7 @@ describe('Integração CRUD de filmes', () => {
               winner: true,
             });
             await request(app.getHttpServer())
-      .delete(`/movies/${secondMovie.id}`)
+      .delete(`/movies/${firstMovieToRemove.id}`)
       .expect(204);
         });
     });
