@@ -63,7 +63,9 @@ export class MoviesService {
     return patchedMovie;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} movie`;
+  async remove(id: number): Promise<void> {
+    const movie = await this.findOne(id);
+
+    await this.movieRepository.remove(movie);
   }
 }
