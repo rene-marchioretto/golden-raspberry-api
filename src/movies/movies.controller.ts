@@ -9,7 +9,7 @@ export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
   @Post()
-  create(@Body() createMovieDto: CreateMovieDto) {
+  create(@Body() createMovieDto: CreateMovieDto): Promise<MovieEntity> {
     return this.moviesService.create(createMovieDto);
   }
 

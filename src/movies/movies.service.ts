@@ -12,8 +12,12 @@ export class MoviesService {
     private movieRepository: Repository<MovieEntity>,
   ) {}
 
-  create(createMovieDto: CreateMovieDto) {
-    return 'This action adds a new movie';
+  async create(createMovieDto: CreateMovieDto): Promise<MovieEntity> {
+    const movie = MovieEntity.create(createMovieDto);
+
+    const createdMovie = await this.movieRepository.save(movie);
+
+    return createdMovie;
   }
 
   findAll(): Promise<MovieEntity[]> {

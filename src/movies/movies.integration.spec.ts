@@ -83,4 +83,24 @@ describe('Integração CRUD de filmes', () => {
           producers: ['Producer A'],
         });
       });
+      it('cria um filme e atualiza a lista de produtores vencedores', async () => {
+        await seedMovie({
+          year: 1980,
+          title: 'Movie A',
+          studios: 'Studio A',
+          producers: ['Producer A'],
+          winner: true,
+        });
+    
+        const response = await request(app.getHttpServer())
+          .post('/movies')
+          .send({
+            year: 1981,
+            title: 'Movie B',
+            studios: 'Studio B',
+            producers: ['Producer A'],
+            winner: true,
+          })
+          .expect(201);
+      });
     });
