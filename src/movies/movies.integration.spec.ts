@@ -130,4 +130,23 @@ describe('Integração CRUD de filmes', () => {
           })
           .expect(200);
         });
+        it('remove um filme', async () => {
+            const firstMovie = await seedMovie({
+              year: 1980,
+              title: 'Movie A',
+              studios: 'Studio A',
+              producers: ['Producer A'],
+              winner: true,
+            });
+            const secondMovie = await seedMovie({
+              year: 1981,
+              title: 'Movie B',
+              studios: 'Studio B',
+              producers: ['Producer A'],
+              winner: true,
+            });
+            await request(app.getHttpServer())
+      .delete(`/movies/${secondMovie.id}`)
+      .expect(204);
+        });
     });
