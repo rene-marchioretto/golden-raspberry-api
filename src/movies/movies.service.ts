@@ -4,6 +4,7 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieEntity } from './entities/movie.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PatchMovieDto } from './dto/patch-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -38,8 +39,28 @@ export class MoviesService {
     return movie;
   }
 
-  update(id: number, updateMovieDto: UpdateMovieDto) {
-    return `This action updates a #${id} movie`;
+  async update(
+    id: number,
+    updateMovieDto: UpdateMovieDto,
+  ): Promise<MovieEntity> {
+    const movie = await this.findOne(id);
+
+    movie.update(updateMovieDto);
+
+    const updatedMovie = await this.movieRepository.save(movie);
+
+    return updatedMovie;
+  }
+
+  async patch(id: number, patchMovieDto: PatchMovieDto): Promise<MovieEntity> {
+    const movie = await this.findOne(id);
+
+    movie.patch(patchMovieDto);
+
+    const patchedMovie = await this.movieRepository.save(movie);
+
+
+    return patchedMovie;
   }
 
   remove(id: number) {
