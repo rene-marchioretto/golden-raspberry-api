@@ -9,3 +9,10 @@ export class AwardWinningProducerIntervalDto {
     min!: AwardWinningProducerIntervalDto[];
     max!: AwardWinningProducerIntervalDto[];
   }
+
+  interface ProducerWinInterval {
+    producer: string;
+    interval: number;
+    previousWin: number;
+    followingWin: number;
+  }

@@ -5,18 +5,21 @@ import { MovieEntity } from './entities/movie.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PatchMovieDto } from './dto/patch-movie.dto';
+import { AwardWinningProducersService } from '../award-winning-producers/award-winning-producers.service';
 
 @Injectable()
 export class MoviesService {
   constructor(
     @InjectRepository(MovieEntity)
     private movieRepository: Repository<MovieEntity>,
+    private readonly awardWinningProducersService: AwardWinningProducersService,
   ) {}
 
   async create(createMovieDto: CreateMovieDto): Promise<MovieEntity> {
     const movie = MovieEntity.create(createMovieDto);
 
     const createdMovie = await this.movieRepository.save(movie);
+    await this.awardWinningProducersService.refreshWatchedList();
 
     return createdMovie;
   }
@@ -48,6 +51,7 @@ export class MoviesService {
     movie.update(updateMovieDto);
 
     const updatedMovie = await this.movieRepository.save(movie);
+    await this.awardWinningProducersService.refreshWatchedList();
 
     return updatedMovie;
   }
@@ -58,7 +62,7 @@ export class MoviesService {
     movie.patch(patchMovieDto);
 
     const patchedMovie = await this.movieRepository.save(movie);
-
+    await this.awardWinningProducersService.refreshWatchedList();
 
     return patchedMovie;
   }
@@ -67,5 +71,6 @@ export class MoviesService {
     const movie = await this.findOne(id);
 
     await this.movieRepository.remove(movie);
+    await this.awardWinningProducersService.refreshWatchedList();
   }
 }
