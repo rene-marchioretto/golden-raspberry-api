@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { MovieEntity } from './entities/movie.entity';
 import { MoviesModule } from './movies.module';
 import { DatabaseModule } from '../utils/database/database.module';
+import { seedMovie } from '../utils/tests/movie-seeds';
 
 interface MovieResponse {
     id: number;
@@ -39,25 +40,15 @@ describe('Integração CRUD de filmes', () => {
       await app.close();
     });
 
-    async function seedMovie(movie: {
-        year: number;
-        title: string;
-        studios: string;
-        producers: string[];
-        winner: boolean;
-      }): Promise<MovieEntity> {
-        return movieRepository.save(MovieEntity.create(movie));
-      }
-
     it('lista filmes e busca um filme por id', async () => {
-        const firstMovie = await seedMovie({
+        const firstMovie = await seedMovie(app, {
           year: 1980,
           title: 'Movie A',
           studios: 'Studio A',
           producers: ['Producer A'],
           winner: true,
         });
-        await seedMovie({
+        await seedMovie(app, {
           year: 1981,
           title: 'Movie B',
           studios: 'Studio B',
@@ -97,7 +88,7 @@ describe('Integração CRUD de filmes', () => {
           .expect(201);
       });
       it('atualiza um filme com put', async () => {
-        const movieToUpdate = await seedMovie({
+        const movieToUpdate = await seedMovie(app, {
           year: 1980,
           title: 'Movie C',
           studios: 'Studio C',
@@ -117,7 +108,7 @@ describe('Integração CRUD de filmes', () => {
           .expect(200);
         });
         it('remove um filme', async () => {
-            const firstMovieToRemove = await seedMovie({
+            const firstMovieToRemove = await seedMovie(app, {
               year: 1981,
               title: 'Movie B',
               studios: 'Studio B',
