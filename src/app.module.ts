@@ -3,9 +3,10 @@ import { DatabaseModule } from './utils/database/database.module';
 import { DatasetBootstrapModule } from './utils/dataset-bootstrap/dataset-bootstrap.module';
 import { MoviesModule } from './movies/movies.module';
 import { AwardWinningProducersModule } from './award-winning-producers/award-winning-producers.module';
+import { HttpModule } from './http/http.module';
 
 @Module({
-  imports: [DatabaseModule, DatasetBootstrapModule, MoviesModule, AwardWinningProducersModule],
+  imports: [DatabaseModule, DatasetBootstrapModule, MoviesModule, AwardWinningProducersModule, HttpModule],
   controllers: [],
   providers: [],
 })

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Put, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Put, HttpCode, MethodNotAllowedException, Header, All } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
@@ -44,5 +44,17 @@ export class MoviesController {
   @HttpCode(204)
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.moviesService.remove(id);
+  }
+
+  @Header('Allow', 'GET, PUT, PATCH, DELETE')
+  @All(':id')
+  notAllowedOnItem(): never {
+    throw new MethodNotAllowedException();
+  }
+
+  @Header('Allow', 'GET, POST')
+  @All()
+  notAllowedOnCollection(): never {
+    throw new MethodNotAllowedException();
   }
 }
