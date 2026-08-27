@@ -53,8 +53,7 @@ export class DatasetBootstrapService implements OnApplicationBootstrap {
   // Lê o arquivo csv
   private readCsv(): string {
     return readFileSync(
-      process.env.MOVIE_FIXTURE_PATH ??
-        `src/utils/dataset-bootstrap/fixture/${process.env.MOVIE_FIXTURE_NAME ?? 'Movielist.csv'}`,
+      process.env.MOVIE_FIXTURE_PATH ?? 'src/utils/dataset-bootstrap/fixture/Movielist.csv',
       'utf8',
     );
   }

@@ -4,7 +4,6 @@ import request from 'supertest';
 import { App } from 'supertest/types';
 
 import { AwardWinningProducersModule } from './award-winning-producers.module';
-import { AwardWinningProducerIntervalsResponseDto } from './dto/award-winning-producer-interval.dto';
 import { MoviesModule } from '../movies/movies.module';
 import { DatabaseModule } from '../utils/database/database.module';
 import { createMovie, MoviePayload, MovieResponse } from '../utils/tests/movie-seeds';
