@@ -574,4 +574,16 @@ describe('Suite de testes para o controller de produtores vencedores', () => {
       ],
     });
   });
+  it('retorna 405 quando o método não é permitido', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/award-winning-producers')
+      .send({})
+      .expect(405)
+      .expect((res) => {
+        expect(res.body).toMatchObject({
+          statusCode: 405,
+          message: 'Method Not Allowed',
+        });
+      });
+  });
 });

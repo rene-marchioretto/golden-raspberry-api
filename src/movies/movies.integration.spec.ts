@@ -111,4 +111,32 @@ describe('Integração CRUD de filmes', () => {
       .delete(`/movies/${firstMovieToRemove.id}`)
       .expect(204);
         });
+        it('retorna 405 quando o método do item não é permitido', async () => {
+            const movie = await seedMovie(app, {
+              year: 1980,
+              title: 'Movie A',
+              studios: 'Studio A',
+              producers: ['Producer A'],
+              winner: true,
+            });
+        
+            const response = await request(app.getHttpServer())
+              .post(`/movies/${movie.id}`)
+              .send({
+                year: 1981,
+                title: 'Movie B',
+                studios: 'Studio B',
+                producers: ['Producer B'],
+                winner: true,
+              })
+              .expect(405)
+              .expect((res) => {
+                expect(res.body).toMatchObject({
+                  statusCode: 405,
+                  message: 'Method Not Allowed',
+                });
+              });
+        
+            expect(response.headers.allow).toBe('GET, PUT, PATCH, DELETE');
+          });
     });

@@ -1,7 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, MethodNotAllowedException, All, Header } from '@nestjs/common';
 import { AwardWinningProducersService } from './award-winning-producers.service';
-import { CreateAwardWinningProducerDto } from './dto/create-award-winning-producer.dto';
-import { UpdateAwardWinningProducerDto } from './dto/update-award-winning-producer.dto';
 import { AwardWinningProducerIntervalsResponseDto } from './dto/award-winning-producer-interval.dto';
 
 @Controller('award-winning-producers')
@@ -13,5 +11,10 @@ export class AwardWinningProducersController {
   @Get()
   findIntervals(): Promise<AwardWinningProducerIntervalsResponseDto> {
     return this.awardWinningProducersService.findIntervals();
+  }
+  @Header('Allow', 'GET')
+  @All()
+  notAllowed(): never {
+    throw new MethodNotAllowedException();
   }
 }
