@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './utils/database/database.module';
 import { DatasetBootstrapModule } from './utils/dataset-bootstrap/dataset-bootstrap.module';
 import { MoviesModule } from './movies/movies.module';
@@ -8,7 +9,16 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule, DatasetBootstrapModule, MoviesModule, AwardWinningProducersModule, HttpModule, UsersModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    DatabaseModule,
+    DatasetBootstrapModule,
+    MoviesModule,
+    AwardWinningProducersModule,
+    HttpModule,
+    UsersModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [],
 })
