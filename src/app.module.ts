@@ -4,9 +4,11 @@ import { DatasetBootstrapModule } from './utils/dataset-bootstrap/dataset-bootst
 import { MoviesModule } from './movies/movies.module';
 import { AwardWinningProducersModule } from './award-winning-producers/award-winning-producers.module';
 import { HttpModule } from './http/http.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule, DatasetBootstrapModule, MoviesModule, AwardWinningProducersModule, HttpModule],
+  imports: [DatabaseModule, DatasetBootstrapModule, MoviesModule, AwardWinningProducersModule, HttpModule, UsersModule, AuthModule],
   controllers: [],
   providers: [],
 })
