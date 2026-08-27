@@ -9,6 +9,7 @@ import { MoviesModule } from './movies.module';
 import { DatabaseModule } from '../utils/database/database.module';
 import { seedMovie } from '../utils/tests/movie-seeds';
 import { MovieResponse } from '../utils/tests/movie-seeds';
+import { HttpModule } from '../http/http.module';
 
 describe('Integração CRUD de filmes', () => {
     let app: INestApplication<App>;
@@ -16,7 +17,7 @@ describe('Integração CRUD de filmes', () => {
   
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
-        imports: [DatabaseModule, MoviesModule],
+        imports: [DatabaseModule, MoviesModule, HttpModule],
       }).compile();
   
       app = module.createNestApplication();

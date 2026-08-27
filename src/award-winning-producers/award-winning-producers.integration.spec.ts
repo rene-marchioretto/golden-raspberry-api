@@ -9,6 +9,7 @@ import { MoviesModule } from '../movies/movies.module';
 import { DatabaseModule } from '../utils/database/database.module';
 import { createMovie, MoviePayload, MovieResponse } from '../utils/tests/movie-seeds';
 import { expectIntervals } from '../utils/tests/interval';
+import { HttpModule } from '../http/http.module';
 
 
 describe('Suite de testes para o controller de produtores vencedores', () => {
@@ -20,6 +21,7 @@ describe('Suite de testes para o controller de produtores vencedores', () => {
         DatabaseModule,
         AwardWinningProducersModule,
         MoviesModule,
+        HttpModule,
       ],
     }).compile();
 
