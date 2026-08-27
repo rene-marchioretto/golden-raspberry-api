@@ -5,6 +5,7 @@ import { validateSync } from 'class-validator';
 import { parse } from 'csv-parse/sync';
 import { readFileSync } from 'fs';
 import { Repository } from 'typeorm';
+import { AwardWinningProducersService } from '../../award-winning-producers/award-winning-producers.service';
 import { MovieEntity } from '../../movies/entities/movie.entity';
 import { MovieCsvRowDto } from './dto/movie-csv-row.dto';
 
@@ -13,6 +14,7 @@ export class DatasetBootstrapService implements OnApplicationBootstrap {
   constructor(
     @InjectRepository(MovieEntity)
     private readonly movieRepository: Repository<MovieEntity>,
+    private readonly awardWinningProducersService: AwardWinningProducersService,
   ) {}
 
 
@@ -33,6 +35,8 @@ export class DatasetBootstrapService implements OnApplicationBootstrap {
       await manager.clear(MovieEntity);
       await manager.save(MovieEntity, movies);
     });
+
+    await this.awardWinningProducersService.refreshWatchedList();
   }
 
   // Valida os dados do csv antes da inserção
