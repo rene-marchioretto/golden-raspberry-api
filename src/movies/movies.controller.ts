@@ -4,7 +4,10 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieEntity } from './entities/movie.entity';
 import { PatchMovieDto } from './dto/patch-movie.dto';
+import { ApiBearerAuth, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('movies')
+@ApiBearerAuth()
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
@@ -46,12 +49,14 @@ export class MoviesController {
     await this.moviesService.remove(id);
   }
 
+  @ApiExcludeEndpoint()
   @Header('Allow', 'GET, PUT, PATCH, DELETE')
   @All(':id')
   notAllowedOnItem(): never {
     throw new MethodNotAllowedException();
   }
 
+  @ApiExcludeEndpoint()
   @Header('Allow', 'GET, POST')
   @All()
   notAllowedOnCollection(): never {
