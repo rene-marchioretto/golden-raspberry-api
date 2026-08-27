@@ -64,15 +64,15 @@ Swagger POST /auth/login
 
 Copie o valor de `access_token`
 
-![Swagger POST /auth/login](./imagens/image copy.png)
+![Resposta do login com access_token](./imagens/swagger-login-token.png)
 
 Suba a parte superior do sistema e clique em "Authorize"
 
-![Swagger POST /auth/login 1](./imagens/image copy 2.png)
+![Botão Authorize no Swagger](./imagens/swagger-authorize.png)
 
-Cole o acess_token na entrada desse modal:
+Cole o `access_token` na entrada desse modal:
 
-![Swagger POST /auth/login 2](./imagens/image copy 3.png)
+![Modal Authorize do Swagger](./imagens/swagger-authorize-modal.png)
 
 Depois você poderá interagir com a API com a autenticação correta
 
