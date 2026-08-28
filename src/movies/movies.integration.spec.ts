@@ -113,9 +113,24 @@ describe('Integração CRUD de filmes', () => {
     const listResponse = await request(app.getHttpServer())
       .get('/movies')
       .expect(200);
-    const movies = listResponse.body as MovieResponse[];
+    const listBody = listResponse.body as {
+      data: MovieResponse[];
+      total: number;
+      page: number;
+      limit: number;
+      pageCount: number;
+    };
 
-    expect(movies.map((movie) => movie.title)).toEqual(['Movie A', 'Movie B']);
+    expect(listBody.data.map((movie) => movie.title)).toEqual([
+      'Movie A',
+      'Movie B',
+    ]);
+    expect(listBody).toMatchObject({
+      total: 2,
+      page: 1,
+      limit: 20,
+      pageCount: 1,
+    });
 
     const findResponse = await request(app.getHttpServer())
       .get(`/movies/${firstMovie.id}`)
@@ -126,6 +141,50 @@ describe('Integração CRUD de filmes', () => {
       id: firstMovie.id,
       title: 'Movie A',
       producers: ['Producer A'],
+    });
+  });
+
+  it('pagina a listagem de filmes', async () => {
+    await seedMovie({
+      year: 1980,
+      title: 'Movie A',
+      studios: 'Studio A',
+      producers: ['Producer A'],
+      winner: true,
+    });
+    await seedMovie({
+      year: 1981,
+      title: 'Movie B',
+      studios: 'Studio B',
+      producers: ['Producer B'],
+      winner: true,
+    });
+    await seedMovie({
+      year: 1982,
+      title: 'Movie C',
+      studios: 'Studio C',
+      producers: ['Producer C'],
+      winner: false,
+    });
+
+    const response = await request(app.getHttpServer())
+      .get('/movies')
+      .query({ page: 2, limit: 2 })
+      .expect(200);
+    const body = response.body as {
+      data: MovieResponse[];
+      total: number;
+      page: number;
+      limit: number;
+      pageCount: number;
+    };
+
+    expect(body.data.map((movie) => movie.title)).toEqual(['Movie C']);
+    expect(body).toMatchObject({
+      total: 3,
+      page: 2,
+      limit: 2,
+      pageCount: 2,
     });
   });
 
