@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Put, HttpCode, MethodNotAllowedException, Header, All } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Put, HttpCode, MethodNotAllowedException, Header, All, Query } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieEntity } from './entities/movie.entity';
 import { PatchMovieDto } from './dto/patch-movie.dto';
 import { ApiBearerAuth, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
+import { PaginateMoviesDto } from './dto/paginate-movies.dto';
+import { PaginatedMoviesDto } from './dto/paginated-movies.dto';
 
 @ApiTags('movies')
 @ApiBearerAuth()
@@ -13,8 +15,8 @@ export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
   @Get()
-  findAll(): Promise<MovieEntity[]> {
-    return this.moviesService.findAll();
+  findAll(@Query() query: PaginateMoviesDto): Promise<PaginatedMoviesDto> {
+    return this.moviesService.findAll(query);
   }
 
   @Get(':id')

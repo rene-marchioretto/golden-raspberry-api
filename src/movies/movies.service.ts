@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AwardWinningProducersService } from '../award-winning-producers/award-winning-producers.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { PaginateMoviesDto } from './dto/paginate-movies.dto';
+import { PaginatedMoviesDto } from './dto/paginated-movies.dto';
 import { PatchMovieDto } from './dto/patch-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieEntity } from './entities/movie.entity';
@@ -15,12 +17,24 @@ export class MoviesService {
     private readonly awardWinningProducersService: AwardWinningProducersService,
   ) {}
 
-  findAll(): Promise<MovieEntity[]> {
-    return this.movieRepository.find({
+  async findAll(query: PaginateMoviesDto): Promise<PaginatedMoviesDto> {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+    const [data, total] = await this.movieRepository.findAndCount({
       order: {
         id: 'ASC',
       },
+      skip: (page - 1) * limit,
+      take: limit,
     });
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+      pageCount: Math.ceil(total / limit),
+    };
   }
 
   async findOne(id: number): Promise<MovieEntity> {
