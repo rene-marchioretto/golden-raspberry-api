@@ -35,7 +35,7 @@ O ambiente exige autenticação, logo foi criado dois usuários padrão salvos e
 
 ## 5 - Instalação
 
-Instalação com o comando:  `npm install`
+Instalação com o comando:  `nvm use && npm install`
 
 ## 6 - Configuração
 
